@@ -1,4 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
+import { Usuario } from './usuario.model';
 
 @model()
 export class Cliente extends Entity {
@@ -51,6 +52,11 @@ export class Cliente extends Entity {
   })
   ciudad: string;
 
+  @property({
+    type: 'Object',
+    required: false,
+  })
+  usuario: Usuario;
 
   constructor(data?: Partial<Cliente>) {
     super(data);

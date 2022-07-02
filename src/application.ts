@@ -5,14 +5,9 @@ import {
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
 
-import {AuthenticationComponent} from '@loopback/authentication';
-import {
-  JWTAuthenticationComponent,
-  SECURITY_SCHEME_SPEC,
-  UserServiceBindings,
-} from '@loopback/authentication-jwt';
 
-import {PruebaDataSource} from './datasources';
+
+
 
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
@@ -52,11 +47,6 @@ export class BackendPruebaApplication extends BootMixin(
       },
     };
     this.component(CrudRestComponent);
-     // Mount authentication system
-     this.component(AuthenticationComponent);
-     // Mount jwt component
-     this.component(JWTAuthenticationComponent);
-     // Bind datasource
-     this.dataSource(PruebaDataSource, UserServiceBindings.DATASOURCE_NAME);
+    
   }
 }

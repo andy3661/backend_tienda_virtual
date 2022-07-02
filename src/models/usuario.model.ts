@@ -23,7 +23,7 @@ export class Usuario extends Entity {
   contrasena: string;
 
   @belongsTo(() => Cliente)
-  clienteId: number;
+  clienteId?: number;
 
   constructor(data?: Partial<Usuario>) {
     super(data);

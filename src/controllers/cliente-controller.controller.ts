@@ -18,12 +18,16 @@ import {
   response,
 } from '@loopback/rest';
 import {Cliente} from '../models';
+import { Usuario } from '../models/usuario.model';
 import {ClienteRepository} from '../repositories';
+import { UsuarioRepository } from '../repositories/usuario.repository';
 
 export class ClienteControllerController {
   constructor(
     @repository(ClienteRepository)
     public clienteRepository : ClienteRepository,
+    @repository(UsuarioRepository)
+    public UsuarioRepository : UsuarioRepository,
   ) {}
 
   @post('/clientes')
@@ -37,14 +41,28 @@ export class ClienteControllerController {
         'application/json': {
           schema: getModelSchemaRef(Cliente, {
             title: 'NewCliente',
-            exclude: ['id'],
+            exclude: ['id','usuario'],
+            
+          
           }),
         },
       },
     })
     cliente: Omit<Cliente, 'id'>,
   ): Promise<Cliente> {
-    return this.clienteRepository.create(cliente);
+    let c=  await this.clienteRepository.create(cliente);
+    let u ={
+       nombre_usuario: c.correo,
+       contrasena: c.documento,
+       clienteId: c.id
+    };
+
+    let usuario = await this.UsuarioRepository.create(u);
+    usuario.contrasena ='';
+       c.usuario = usuario;
+    
+    return c;
+
   }
 
   @get('/clientes/count')
