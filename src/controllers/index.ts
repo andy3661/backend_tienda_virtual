@@ -16,3 +16,4 @@ export * from './producto-categoria.controller';
 export * from './categoria-controller.controller';
 export * from './producto-controller.controller';
 export * from './cliente-controller.controller';
+export * from './usuario-controller.controller';
