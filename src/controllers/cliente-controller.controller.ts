@@ -21,7 +21,8 @@ import {Cliente} from '../models';
 import { Usuario } from '../models/usuario.model';
 import {ClienteRepository} from '../repositories';
 import { UsuarioRepository } from '../repositories/usuario.repository';
-
+import{EncryptDecrypt} from '../services/encrypt-decrypt.service';
+import {ServiceKeys as Keys} from '../keys/service-keys'
 export class ClienteControllerController {
   constructor(
     @repository(ClienteRepository)
@@ -51,9 +52,11 @@ export class ClienteControllerController {
     cliente: Omit<Cliente, 'id'>,
   ): Promise<Cliente> {
     let c=  await this.clienteRepository.create(cliente);
+    let password1 = new EncryptDecrypt(Keys.MD5).Encrypt(c.documento);
+    let password2 = new EncryptDecrypt(Keys.MD5).Encrypt(password1);
     let u ={
        nombre_usuario: c.correo,
-       contrasena: c.documento,
+       contrasena: password2,
        clienteId: c.id
     };
 
@@ -155,6 +158,11 @@ export class ClienteControllerController {
     @param.path.number('id') id: number,
     @requestBody() cliente: Cliente,
   ): Promise<void> {
+    let u = await this.UsuarioRepository.findOne({where:{clienteId:cliente.id}})
+    if(u){
+      u.nombre_usuario= cliente.correo;
+      await this.UsuarioRepository.replaceById(u.id,u)
+    }
     await this.clienteRepository.replaceById(id, cliente);
   }
 
