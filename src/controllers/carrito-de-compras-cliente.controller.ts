@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   repository,
 } from '@loopback/repository';
@@ -12,12 +13,13 @@ import {
 } from '../models';
 import {CarritoDeComprasRepository} from '../repositories';
 
+
 export class CarritoDeComprasClienteController {
   constructor(
     @repository(CarritoDeComprasRepository)
     public carritoDeComprasRepository: CarritoDeComprasRepository,
   ) { }
-
+  @authenticate('cliente')
   @get('/carrito-de-compras/{id}/cliente', {
     responses: {
       '200': {

@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   repository,
 } from '@loopback/repository';
@@ -11,7 +12,7 @@ import {
   Categoria,
 } from '../models';
 import {ProductoRepository} from '../repositories';
-
+@authenticate('admin','cliente')
 export class ProductoCategoriaController {
   constructor(
     @repository(ProductoRepository)

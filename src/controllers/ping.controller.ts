@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {
   Request,
@@ -37,6 +38,7 @@ const PING_RESPONSE: ResponseObject = {
 /**
  * A simple controller to bounce back http requests
  */
+ @authenticate('admin')
 export class PingController {
   constructor(@inject(RestBindings.Http.REQUEST) private req: Request) {}
 

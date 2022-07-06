@@ -14,8 +14,9 @@ export class AuthService{
     }
 
 async Identify(username: string, password: string): Promise<Usuario|  false>{
-
+    console.log("entra");
 let user =await this.usuarioRepository.findOne({where:{nombre_usuario: username}});
+console.log(user);
 if(user){
 let cryptPass = new EncryptDecrypt(Keys.LOGIN_CRYPT_METHOD).Encrypt(password);
 if(user.contrasena == cryptPass){
@@ -26,11 +27,13 @@ return false;
 }
 
 async GenerateToken(user:Usuario){
+    
 user.contrasena = '';
 let token =  jwt.sign({
  exp: Keys.TOKEN_EXPIRATION_TIME,
  data:{
      _id: user.id,
+     role_id: user.roleId,
      username: user.nombre_usuario,
      paternId: user.clienteId,
 
@@ -41,6 +44,16 @@ Keys.JWT_SECRET_KEY);
 return token;
 }
 
+// verificar token
 
+VerificarTokenJWT(token: string){
+    try {
+ let decode = jwt.verify(token,Keys.JWT_SECRET_KEY);
+ return decode;
+}catch{
+    return null;
+}
+
+}
 }
 

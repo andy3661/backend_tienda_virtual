@@ -37,6 +37,7 @@ import _ from 'lodash';
 import { authenticate, TokenService } from '@loopback/authentication';
 
 @model()
+@authenticate('admin')
 export class NewUserRequest extends User {
   @property({
     type: 'string',

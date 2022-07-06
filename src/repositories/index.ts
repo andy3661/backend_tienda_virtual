@@ -8,3 +8,4 @@ export * from './iten-de-venta.repository';
 export * from './producto.repository';
 export * from './prueba.repository';
 export * from './usuario.repository';
+export * from './role.repository';

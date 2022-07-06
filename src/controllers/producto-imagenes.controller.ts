@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,12 +21,12 @@ import {
   Imagenes,
 } from '../models';
 import {ProductoRepository} from '../repositories';
-
+@authenticate('admin')
 export class ProductoImagenesController {
   constructor(
     @repository(ProductoRepository) protected productoRepository: ProductoRepository,
   ) { }
-
+  @authenticate('cliente')
   @get('/productos/{id}/imagenes', {
     responses: {
       '200': {

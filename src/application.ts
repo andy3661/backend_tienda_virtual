@@ -15,6 +15,9 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
 import {CrudRestComponent} from '@loopback/rest-crud';
+import { AuthenticationComponent, registerAuthenticationStrategy } from '@loopback/authentication';
+import { AdministradorStrategy } from './strategies/administrador.strategy';
+import { ClienteStrategy } from './strategies/cliente.strategy';
 
 export {ApplicationConfig};
 
@@ -47,6 +50,9 @@ export class BackendPruebaApplication extends BootMixin(
       },
     };
     this.component(CrudRestComponent);
-    
+
+    registerAuthenticationStrategy(this, AdministradorStrategy);
+    registerAuthenticationStrategy(this, ClienteStrategy);
+    this.component(AuthenticationComponent);
   }
 }

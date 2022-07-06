@@ -8,3 +8,4 @@ export * from './cliente.model';
 export * from './usuario.model';
 export * from './carrito-de-compras.model';
 export * from './documento-venta.model';
+export * from './role.model';

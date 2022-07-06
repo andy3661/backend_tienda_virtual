@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   repository,
 } from '@loopback/repository';
@@ -12,6 +13,7 @@ import {
 } from '../models';
 import {ItenDeVentaRepository} from '../repositories';
 
+@authenticate('admin','cliente')
 export class ItenDeVentaProductoController {
   constructor(
     @repository(ItenDeVentaRepository)

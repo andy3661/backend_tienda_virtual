@@ -23,6 +23,8 @@ import {ClienteRepository} from '../repositories';
 import { UsuarioRepository } from '../repositories/usuario.repository';
 import{EncryptDecrypt} from '../services/encrypt-decrypt.service';
 import {ServiceKeys as Keys} from '../keys/service-keys'
+import { authenticate } from '@loopback/authentication';
+@authenticate('admin')
 export class ClienteControllerController {
   constructor(
     @repository(ClienteRepository)
@@ -30,7 +32,7 @@ export class ClienteControllerController {
     @repository(UsuarioRepository)
     public UsuarioRepository : UsuarioRepository,
   ) {}
-
+  @authenticate.skip()
   @post('/clientes')
   @response(200, {
     description: 'Cliente model instance',
@@ -115,7 +117,7 @@ export class ClienteControllerController {
   ): Promise<Count> {
     return this.clienteRepository.updateAll(cliente, where);
   }
-
+  @authenticate('cliente')
   @get('/clientes/{id}')
   @response(200, {
     description: 'Cliente model instance',
@@ -131,7 +133,7 @@ export class ClienteControllerController {
   ): Promise<Cliente> {
     return this.clienteRepository.findById(id, filter);
   }
-
+  @authenticate('cliente')
   @patch('/clientes/{id}')
   @response(204, {
     description: 'Cliente PATCH success',
@@ -149,7 +151,7 @@ export class ClienteControllerController {
   ): Promise<void> {
     await this.clienteRepository.updateById(id, cliente);
   }
-
+  @authenticate('cliente')
   @put('/clientes/{id}')
   @response(204, {
     description: 'Cliente PUT success',

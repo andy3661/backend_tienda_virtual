@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,12 +21,12 @@ import {
   ItenDeVenta,
 } from '../models';
 import {CarritoDeComprasRepository} from '../repositories';
-
+@authenticate('admin')
 export class CarritoDeComprasItenDeVentaController {
   constructor(
     @repository(CarritoDeComprasRepository) protected carritoDeComprasRepository: CarritoDeComprasRepository,
   ) { }
-
+  @authenticate('cliente')
   @get('/carrito-de-compras/{id}/iten-de-ventas', {
     responses: {
       '200': {
@@ -44,7 +45,7 @@ export class CarritoDeComprasItenDeVentaController {
   ): Promise<ItenDeVenta[]> {
     return this.carritoDeComprasRepository.itenDeVentas(id).find(filter);
   }
-
+  @authenticate('cliente')
   @post('/carrito-de-compras/{id}/iten-de-ventas', {
     responses: {
       '200': {
@@ -69,7 +70,7 @@ export class CarritoDeComprasItenDeVentaController {
   ): Promise<ItenDeVenta> {
     return this.carritoDeComprasRepository.itenDeVentas(id).create(itenDeVenta);
   }
-
+  @authenticate('cliente')
   @patch('/carrito-de-compras/{id}/iten-de-ventas', {
     responses: {
       '200': {

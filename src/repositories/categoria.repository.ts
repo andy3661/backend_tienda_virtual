@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {inject, Getter} from '@loopback/core';
 import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
 import {TiendaDataSource} from '../datasources';

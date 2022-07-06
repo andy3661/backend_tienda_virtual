@@ -1,3 +1,5 @@
+
+import { authenticate } from '@loopback/authentication/dist/decorators/authenticate.decorator';
 import {
   Count,
   CountSchema,
@@ -19,7 +21,7 @@ import {
 } from '@loopback/rest';
 import {Categoria} from '../models';
 import {CategoriaRepository} from '../repositories';
-
+@authenticate('admin')
 export class CategoriaControllerController {
   constructor(
     @repository(CategoriaRepository)
@@ -57,7 +59,7 @@ export class CategoriaControllerController {
   ): Promise<Count> {
     return this.categoriaRepository.count(where);
   }
-
+  @authenticate.skip()
   @get('/categorias')
   @response(200, {
     description: 'Array of Categoria model instances',
@@ -94,7 +96,7 @@ export class CategoriaControllerController {
   ): Promise<Count> {
     return this.categoriaRepository.updateAll(categoria, where);
   }
-
+  @authenticate.skip()
   @get('/categorias/{id}')
   @response(200, {
     description: 'Categoria model instance',

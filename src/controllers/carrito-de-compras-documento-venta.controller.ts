@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,12 +21,12 @@ import {
   DocumentoVenta,
 } from '../models';
 import {CarritoDeComprasRepository} from '../repositories';
-
+@authenticate('admin')
 export class CarritoDeComprasDocumentoVentaController {
   constructor(
     @repository(CarritoDeComprasRepository) protected carritoDeComprasRepository: CarritoDeComprasRepository,
   ) { }
-
+  @authenticate('cliente')
   @get('/carrito-de-compras/{id}/documento-ventas', {
     responses: {
       '200': {
